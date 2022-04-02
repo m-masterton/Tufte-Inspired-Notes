@@ -1,19 +1,8 @@
-%%
-%% This file contains the code that's common to the Tufte-LaTeX document classes.
-%%
-
 \ProvidesFile{tufte-common.def}[2009/12/11 v3.5.0 Common code for the Tufte-LaTeX styles]
 
-%%
-% The `xkeyval' package simplifies the user interface for the document class options
 \RequirePackage{xkeyval}
 
-%%
-% We use the `xifthen' package to handle our package option switches
 \RequirePackage{xifthen}
-
-%%
-% Define some shortcut macros for error/warning/info logging.
 
 \newcommand{\TufteWarning}[1]{\ClassWarning{\@tufte@pkgname}{#1}}
 \newcommand{\TufteWarningNL}[1]{\ClassWarningNoLine{\@tufte@pkgname}{#1}}
@@ -23,54 +12,29 @@
 \newcommand{\TufteDebugInfoNL}[1]{\ifthenelse{\boolean{@tufte@debug}}{\TufteInfoNL{#1}}{}}
 \newcommand{\TufteError}[2]{\ClassError{\@tufte@pkgname}{#1}{#2}}
 
-%%
-% `debug' option -- provides more information in the .log file for use in
-% troubleshooting problems
 \newboolean{@tufte@debug}
 \DeclareOptionX[tufte]<common>{debug}{\setboolean{@tufte@debug}{true}}
 
-%%
-% `nofonts' option -- doesn't load any fonts
-% `fonts' option -- tries to load fonts
 \newboolean{@tufte@loadfonts}\setboolean{@tufte@loadfonts}{true}
 \DeclareOptionX[tufte]<common>{fonts}{\setboolean{@tufte@loadfonts}{true}}
 \DeclareOptionX[tufte]<common>{nofonts}{\setboolean{@tufte@loadfonts}{false}}
 
-%%
-% `nols' option -- doesn't configure letterspacing
-% `ls' option -- configures letterspacing
 \newboolean{@tufte@letterspace}\setboolean{@tufte@letterspace}{true}
 \DeclareOptionX[tufte]<common>{ls}{\setboolean{@tufte@letterspace}{true}}
 \DeclareOptionX[tufte]<common>{nols}{\setboolean{@tufte@letterspace}{false}}
-
-%%
-% `titlepage' option -- creates a full title page with \maketitle
 
 \newboolean{@tufte@titlepage}
 \DeclareOptionX[tufte]<common>{titlepage}{\setboolean{@tufte@titlepage}{true}}
 \DeclareOptionX[tufte]<common>{notitlepage}{\setboolean{@tufte@titlepage}{false}}
 
-%%
-% `a4paper' option
-
 \newboolean{@tufte@afourpaper}
 \DeclareOptionX[tufte]<common>{a4paper}{\setboolean{@tufte@afourpaper}{true}}
-
-%%
-% `b5paper' option
 
 \newboolean{@tufte@bfivepaper}
 \DeclareOptionX[tufte]<common>{b5paper}{\setboolean{@tufte@bfivepaper}{true}}
 
-%%
-% `sfsidenotes' option -- typesets sidenotes in sans serif typeface
-
 \newboolean{@tufte@sfsidenotes}
 \DeclareOptionX[tufte]<common>{sfsidenotes}{\setboolean{@tufte@sfsidenotes}{true}}
-
-%%
-% `symmetric' option -- puts marginpar space to the outside edge of the page
-%   Note: this option forces the twoside option (see the .cls files)
 
 \newboolean{@tufte@symmetric}
 \DeclareOptionX[tufte]<common>{symmetric}{
@@ -79,9 +43,6 @@
   \ExecuteOptionsX[tufte]<common>{twoside}
 }
 
-%%
-% `twoside' option -- alternates running heads
-
 \newboolean{@tufte@twoside}
 \DeclareOptionX[tufte]<common>{twoside}{%
   \setboolean{@tufte@twoside}{true}
@@ -89,39 +50,23 @@
   \PassOptionsToClass{twoside}{\@tufte@class}
 }
 
-%%
-% `notoc' option -- suppresses the Tufte-style table of contents
-
 \newboolean{@tufte@toc}
 \setboolean{@tufte@toc}{true}
 \DeclareOptionX[tufte]<common>{notoc}{\setboolean{@tufte@toc}{false}}
 \DeclareOptionX[tufte]<common>{toc}{\setboolean{@tufte@toc}{true}}
 
-%%
-% `justified' option -- uses fully justified text (flush left and flush
-% right) instead of ragged right.
-
 \newboolean{@tufte@justified}
 \DeclareOptionX[tufte]<common>{justified}{\setboolean{@tufte@justified}{true}}
-
-%%
-% `bidi' option -- loads the bidi package for bi-directional text
 
 \newboolean{@tufte@loadbidi}
 \DeclareOptionX[tufte]<common>{bidi}{\setboolean{@tufte@loadbidi}{true}}
 \DeclareOptionX[tufte]<common>{nobidi}{\setboolean{@tufte@loadbidi}{false}}
-
-%%
-% `nohyper' option -- suppresses loading of the hyperref package
 
 \newboolean{@tufte@loadhyper}
 \setboolean{@tufte@loadhyper}{true}
 \DeclareOptionX[tufte]<common>{hyper}{\setboolean{@tufte@loadhyper}{true}}
 \DeclareOptionX[tufte]<common>{nohyper}{\setboolean{@tufte@loadhyper}{false}}
 
-%%
-% `sidenote', `marginnote', `caption', `citation', `marginals' options
-% Each allows one of {justified,raggedleft,raggedright,raggedouter,auto}.
 
 \newcommand*{\@tufte@sidenote@justification}{\@tufte@justification@autodetect}
 \define@choicekey*+[tufte]{common}{sidenote}[\@tufte@kvtext\@tufte@kvnum]{justified,raggedleft,raggedright,raggedouter,auto}[auto]{%
@@ -213,10 +158,6 @@
   \ExecuteOptionsX[tufte]<common>{citation=auto,sidenote=auto,caption=auto,marginnote=auto}% autodetects best justification mode based on all class options
 }
 
-
-%%
-% Unsupported options
-
 \newcommand{\@tufte@unsupported@option}[1]{\TufteWarningNL{Option `#1' is not supported -- \MessageBreak ignoring option}\OptionNotUsed}
 
 \DeclareOptionX[tufte]<common>{10pt}{\@tufte@unsupported@option{\CurrentOption}}
@@ -229,9 +170,6 @@
 \DeclareOptionX[tufte]<common>{onecolumn}{\@tufte@unsupported@option{\CurrentOption}}
 \DeclareOptionX[tufte]<common>{twocolumn}{\@tufte@unsupported@option{\CurrentOption}}
 
-%%
-% Default `book' and `handout' options
-
 \ifthenelse{\equal{\@tufte@pkgname}{tufte-book}}
   {\ExecuteOptionsX[tufte]<common>{titlepage}}
   {\ExecuteOptionsX[tufte]<common>{notitlepage}}
@@ -243,23 +181,13 @@
 }
 \ProcessOptionsX*[tufte]<common>\relax
 
-%%
-% Load the appropriate base class
 \TufteInfoNL{Loading the base class `\@tufte@class'}
 \LoadClass{\@tufte@class}
-
-%%
-% Detect whether we're in two-side mode or not.  (Used to set up running
-% heads later.)
 
 \ifthenelse{\boolean{@twoside}}
   {\setboolean{@tufte@twoside}{true}}
   {}
 
-
-
-%%
-% Detect if we're using pdfLaTeX
 
 \newboolean{@tufte@pdf}
 \IfFileExists{ifpdf.sty}{%
@@ -271,9 +199,6 @@
   \setboolean{@tufte@pdf}{false}
 }
 
-%%
-% Detect if we're using XeLaTeX
-
 \newboolean{@tufte@xetex}
 \IfFileExists{ifxetex.sty}{%
   \RequirePackage{ifxetex}
@@ -284,16 +209,10 @@
   \setboolean{@tufte@xetex}{false}
 }
 
-%%
-% Globally sets the length
-
 \newcommand*{\gsetlength}[2]{%
   \setlength{#1}{#2}%
   \global#1=#1\relax%
 }
-
-%%
-% Globally sets a boolean
 
 \newcommand*{\gsetboolean}[2]{% based on code from ifthen pkg
   \lowercase{\def\@tempa{#2}}%
@@ -305,15 +224,7 @@
     }%
 }
 
-%%
-% The titlesec and titletoc packages are used to change the style of the
-% section headings.  These packages should be loaded before the hyperref
-% package.
-
 \RequirePackage{titlesec,titletoc}
-
-%%%
-%% Loads the hyperref package and sets some default options.
 
 \newcommand{\TufteLoadHyperref}{%
   \ifthenelse{\boolean{@tufte@xetex}}
@@ -329,17 +240,12 @@
   }%
 }
 
-%%%
-%% Load the `hyperref' package.
-
 \ifthenelse{\boolean{@tufte@loadhyper}}{%
   \TufteLoadHyperref%
 }{% hyperfootnotes override our modifications to the \footnote* and \@footnote* commands.
   \PassOptionsToPackage{hyperfootnotes=false}{hyperref}
 }
 
-%%
-% Set the font sizes and baselines to match Tufte's books
 \renewcommand\normalsize{%
    \@setfontsize\normalsize\@xpt{14}%
    \abovedisplayskip 10\p@ \@plus2\p@ \@minus5\p@
@@ -389,9 +295,6 @@
 \setlength\labelwidth    {\leftmargini}
 \addtolength\labelwidth{-\labelsep}
 
-%%
-% \RaggedRight allows hyphenation
-
 \RequirePackage{ragged2e}
 \setlength{\RaggedRightRightskip}{\z@ plus 0.08\hsize}
 \setlength{\RaggedRightParindent}{1pc}
@@ -404,16 +307,11 @@
 }
 \@tufte@reset@par
 
-% Paragraph indentation and separation for marginal text
 \newcommand{\@tufte@margin@par}{%
   \setlength{\RaggedRightParindent}{0.5pc}%
   \setlength{\parindent}{0.5pc}%
   \setlength{\parskip}{0pt}%
 }
-
-
-%%
-% Set page layout geometry
 
 \RequirePackage[letterpaper,left=1in,top=1in,headsep=2\baselineskip,textwidth=26pc,marginparsep=2pc,marginparwidth=12pc,textheight=44\baselineskip,headheight=\baselineskip]{geometry}
 
@@ -429,14 +327,7 @@
   {}
   {\geometry{asymmetric}}% forces internal LaTeX `twoside'
 
-
-%%
-% Separation marginpars by a line's worth of space.
-
 \setlength\marginparpush{10pt}
-
-%%
-% Font for margin items
 
 \ifthenelse{\boolean{@tufte@sfsidenotes}}
   {\newcommand{\@tufte@marginfont}{\normalfont\footnotesize\sffamily}}
@@ -452,28 +343,16 @@
 \newcommand*{\setmarginnotefont}[1]{\renewcommand*{\@tufte@marginnote@font}{#1}}
 \newcommand*{\setcitationfont}[1]{\renewcommand*{\@tufte@citation@font}{#1}}
 
-%%
-% Set the justification baesed on the `justified' class option
-
 \newcommand{\@tufte@justification}{%
   \ifthenelse{\boolean{@tufte@justified}}%
     {\justifying}%
     {\RaggedRight}%
 }
 
-%%
-% Turn off section numbering
-
 \setcounter{secnumdepth}{-1}
-
-%%
-% Tighten up space between displays (e.g., a figure or table) and make symmetric
 
 \setlength\abovedisplayskip{6pt plus 2pt minus 4pt}
 \setlength\belowdisplayskip{6pt plus 2pt minus 4pt}
-
-%%
-% To implement full-width display environments
 
 \newboolean{@tufte@changepage}
 \IfFileExists{changepage.sty}{%
@@ -486,7 +365,6 @@
   \setboolean{@tufte@changepage}{false}
 }
 
-% Write our own aliases for the \checkoddpage and \ifoddpage or \ifcpoddpage commands
 \newboolean{@tufte@odd@page}
 \setboolean{@tufte@odd@page}{true}
 \newcommand*{\@tufte@checkoddpage}{%
@@ -506,9 +384,6 @@
   }%
 }
 
-%%
-% Compute lengths used for full-width displays
-
 \newlength{\@tufte@overhang}% used by the fullwidth environment and the running heads
 \newlength{\@tufte@fullwidth}
 \newlength{\@tufte@caption@fill}
@@ -527,10 +402,6 @@
 
 \AtBeginDocument{\TufteRecalculate}
 
-%%
-% Modified \title, \author, and \date commands.  These store the
-% (footnote-less) values in \plaintitle, \plainauthor, and \thedate, respectively.
-
 \newcommand{\plaintitle}{}%     plain-text-only title
 \newcommand{\plainauthor}{}%    plain-text-only author
 \newcommand{\plainpublisher}{}% plain-text-only publisher
@@ -541,10 +412,6 @@
 
 \newcommand{\@publisher}{}% full publisher with \thanks{}
 \newcommand{\thedate}{\today}
-
-% TODO Fix it so that \thanks is not spaced out (with `soul') and can be
-% used in \maketitle when the `sfsidenotes' option is provided.
-\renewcommand{\thanks}[1]{\NoCaseChange{\footnote{#1}}}
 
 \renewcommand{\title}[2][]{%
   \gdef\@title{#2}%
@@ -582,9 +449,6 @@
   \endgroup%
 }
 
-%%
-% Provides a \publisher command to set the publisher
-
 \newcommand{\publisher}[2][]{%
   \gdef\@publisher{#2}%
   \begingroup%
@@ -596,14 +460,7 @@
     {\renewcommand{\plainpublisher}{#1}}% use provided plain-text publisher
 }
 
-% TODO: Test \hypersetup{pdfauthor,pdftitle} with DVI and XeTeX
-
-%%
-% Require paralist package for tighter lists
-
 \RequirePackage{paralist}
-
-% Add rightmargin to compactenum
 
 \def\@compactenum@{%
   \expandafter\list\csname label\@enumctr\endcsname{%
@@ -615,13 +472,6 @@
     \partopsep\plpartopsep
     \def\makelabel##1{\hss\llap{##1}}}}
 
-%%
-% Improved letterspacing of small caps and all-caps text.
-%
-% First, try to use the `microtype' package, if it's available. 
-% Failing that, try to use the `soul' package, if it's available.
-% Failing that, well, I give up.
-
 \DeclareTextFontCommand{\textsmallcaps}{\scshape}
 
 \RequirePackage{textcase} % provides \MakeTextUppercase and \MakeTextLowercase
@@ -629,11 +479,6 @@
 \def\smallcapsspacing{\TufteWarning{Proper spacing of small-caps letters has not been set up.}}
 \newcommand{\allcaps}[1]{\allcapsspacing{\MakeTextUppercase{#1}}}
 \newcommand{\smallcaps}[1]{\smallcapsspacing{\MakeTextLowercase{#1}}}
-
-% If we're using pdfLaTeX v1.40+, use the letterspace package. 
-% If we're using pdfLaTex < v1.40, use the soul package.
-% If we're using XeLaTeX, use XeLaTeX letterspacing options.
-% Otherwise fall back on the soul package.
 
 \ifthenelse{\boolean{@tufte@pdf}}
   {\TufteDebugInfoNL{ifpdf = true}}
@@ -643,7 +488,6 @@
   {\TufteDebugInfoNL{ifxetex = true}}
   {\TufteDebugInfoNL{ifxetex = false}}
 
-% Check pdfLaTeX version
 \def\@tufte@pdftexversion{0}
 \ifx\normalpdftexversion\@undefined \else
   \let\pdftexversion \normalpdftexversion
@@ -696,53 +540,10 @@
   }%
 }{}
 
-%\ifthenelse{\boolean{@tufte@letterspace}}{%
-  %\ifthenelse{\boolean{pdf}}{%
-    %\ifthenelse{\NOT\boolean{@tufte@letterspace@pkg@prereqs}}{%
-      %% pdfLaTeX version is too old or not using pdfLaTeX
-      %\ifthenelse{\boolean{@tufte@xetex}}{%
-        %% TODO use xetex letterspacing
-        %\TufteDebugInfoNL{XeTeX detected. \MessageBreak Reverting to `soul' package for letterspacing}%
-        %\@tufte@loadsoul%
-      %}{%
-        %% use `soul' package for letterspacing
-        %\TufteDebugInfoNL{Old version of pdfTeX detected. \MessageBreak Reverting to `soul' package for letterspacing}%
-        %\@tufte@loadsoul%
-      %}
-    %}{%
-      %\IfFileExists{letterspace.sty}{%
-        %\TufteDebugInfoNL{Modern version of pdfTeX detected. \MessageBreak Using `letterspace' package}
-        %\RequirePackage{letterspace}
-        %% Set up letterspacing (using microtype package) -- requires pdfTeX v1.40+
-        %\renewcommand{\allcapsspacing}[1]{\textls[200]{##1}}
-        %\renewcommand{\smallcapsspacing}[1]{\textls[50]{##1}}
-        %\renewcommand{\allcaps}[1]{\textls[200]{\MakeTextUppercase{##1}}}
-        %\renewcommand{\smallcaps}[1]{\smallcapsspacing{\MakeTextLowercase{##1}}}
-        %\renewcommand{\textsc}[1]{\smallcapsspacing{\textsmallcaps{##1}}}
-      %}{% microtype failed, check for soul
-        %\TufteDebugInfoNL{Modern version of pdfTeX detected, but `letterspace' \MessageBreak package not installed.  \MessageBreak Reverting to  `soul' package for letterspacing}
-        %\@tufte@loadsoul
-      %}%
-    %}%
-  %}{%
-    %\TufteDebugInfoNL{Plain LaTeX detected. \MessageBreak Using `soul' package for letterspacing}
-    %\@tufte@loadsoul
-  %}
-%}{%
-%% we're not to load letterspacing, so do nothing
-%}
-
-
-%%
-% An environment for paragraph-style section
-
 \providecommand\newthought[1]{%
    \addvspace{1.0\baselineskip plus 0.5ex minus 0.2ex}%
    \noindent\textsc{#1}%
 }
-
-%%
-% Redefine the display environments (quote, quotation, etc.)
 
 \renewenvironment{verse}
                {\let\\\@centercr
@@ -768,29 +569,12 @@
                 \item\relax}
                {\endlist}
 
-%%
-% Italicize description run-in headings (instead of the default bold)
-
 \renewcommand*\descriptionlabel[1]{\hspace\labelsep\normalfont\em #1}
 
 
-%%
-% Used for doublespacing, and other linespacing
-
 \RequirePackage{setspace}
 
-%%
-% Load the bidi package if instructed to do so.  This package must be loaded
-% prior to our redefining the \footnote and \cite commands.
-
 \ifthenelse{\boolean{@tufte@loadbidi}}{\RequirePackage{bidi}}{}
-
-
-%%
-% A function that removes leading and trailling spaces from the supplied macro.
-% Based on code written by Michael Downes (See ``Around the Bend'', #15.)
-% Executing \@tufte@trim@spaces\xyzzy will result in the contents of \xyzzy
-% being trimmed of leading and trailing white space.
 
 \catcode`\Q=3
 \def\@tufte@trim@spaces#1{%
@@ -806,20 +590,10 @@
   \edef#1{\the\toks0}%
 }
 
-% \trimb removes a trailing space if present, then calls \@tufte@trim@c to
-% clean up any leftover bizarre Qs, and trim a leading space. In
-% order for \trimc to work properly we need to put back a Q first.
 \def\@tufte@trim@b#1 Q{\@tufte@trim@c#1Q}
 
-% Execute \vfuzz assignment to remove leading space; the \noexpand
-% will now prevent unwanted expansion of a macro or other expandable
-% token at the beginning of the trimmed text. The \endgroup will feed
-% in the \aftergroup tokens after the \vfuzz assignment is completed.
 \def\@tufte@trim@c#1Q#2{\afterassignment\endgroup \vfuzz\the\vfuzz#1}
 \catcode`\Q=11
-
-%%
-% Citations should go in the margin as sidenotes
 
 \RequirePackage{natbib}
 \RequirePackage{bibentry}        % allows bibitems to be typeset outside thebibliography environment
@@ -833,8 +607,6 @@
 \nobibliography*                % pre-loads the bibliography keys
 \providecommand{\doi}[1]{\textsc{doi:} #1}% pre-defining this so it may be used before the \bibliography command it issued
 
-%%
-% Normal \cite behavior
 \newcounter{@tufte@num@bibkeys}%
 \newcommand{\@tufte@normal@cite}[2][0pt]{%
   % Snag the last bibentry in the list for later comparison
@@ -855,10 +627,6 @@
     }%
   }%
 }
-
-
-%%
-% Macros for holding the list of cite keys until after the \sidenote
 
 \gdef\@tufte@citations{}% list of cite keys
 \newcommand\@tufte@add@citation[1]{\relax% adds a new bibkey to the list of cite keys
@@ -893,33 +661,20 @@
   }%
 }
 
-%%
-% \cite behavior when executed within a sidenote
-
 \newcommand{\@tufte@sidenote@citations}{}% contains list of \cites in sidenote
 \newcommand{\@tufte@infootnote@cite}[1]{%
   \@tufte@add@citation{#1}
 }
 
-%%
-% Set the default \cite style.  This is set and reset by the \sidenote command.
-
 \let\cite\@tufte@normal@cite
-
-%%
-% Transform existing \footnotes into \sidenotes
-% Sidenote: ``Where God meant footnotes to go.'' ---Tufte
 
 \RequirePackage{optparams}% for our new sidenote commands -- provides multiple optional arguments for commands
 
 \providecommand*{\footnotelayout}{\@tufte@sidenote@font\@tufte@sidenote@justification}
 \renewcommand{\footnotelayout}{\@tufte@sidenote@font\@tufte@sidenote@justification}
 
-% Override footmisc's definition to set the sidenote marks (numbers) inside the
-% sidenote's text block.
 \long\def\@makefntext#1{\@textsuperscript{\@tufte@sidenote@font\tiny\@thefnmark}\,\footnotelayout#1}
 
-% Set the in-text footnote mark in the same typeface as the body text itself.
 \def\@makefnmark{\hbox{\@textsuperscript{\normalfont\footnotesize\@thefnmark}}}
 
 \providecommand*{\multiplefootnotemarker}{3sp}
@@ -966,9 +721,6 @@
   \@tufte@reset@par% use parindent and parskip settings for body text
 }%
 
-%
-% Define \sidenote command.  Can handle \cite.
-
 \newlength{\@tufte@sidenote@vertical@offset}
 \setlength{\@tufte@sidenote@vertical@offset}{0pt}
 
@@ -1004,9 +756,6 @@
 \newcommand*{\sidenote}{\optparams{\@tufte@sidenote}{[][0pt]}}
 \renewcommand*{\footnote}{\optparams{\@tufte@sidenote}{[][0pt]}}
 
-%%
-% Sidenote without the footnote mark
-
 \newcommand\marginnote[2][0pt]{%
   \let\cite\@tufte@infootnote@cite%   use the in-sidenote \cite command
   \gdef\@tufte@citations{}%           clear out any old citations
@@ -1017,15 +766,7 @@
   \let\cite\@tufte@normal@cite%       go back to using normal in-text \cite command
 }
 
-
-%%
-% The placeins package provides the \FloatBarrier command.  This forces
-% LaTeX to place all of the floats before proceeding.  We'll use this to
-% keep the float (figure and table) numbers in sequence.
 \RequirePackage{placeins}
-
-%%
-% Margin float environment
 
 \newsavebox{\@tufte@margin@floatbox}
 \newenvironment{@tufte@margin@float}[2][-1.2ex]%
@@ -1046,34 +787,20 @@
   }
 
 
-%%
-% Margin figure environment
-
 \newenvironment{marginfigure}[1][-1.2ex]%
   {\begin{@tufte@margin@float}[#1]{figure}}
   {\end{@tufte@margin@float}}
 
 
-%%
-% Margin table environment
-
 \newenvironment{margintable}[1][-1.2ex]%
   {\begin{@tufte@margin@float}[#1]{table}}
   {\end{@tufte@margin@float}}
-
-
-%%
-% Auto-detects the proper text alignment based on the various class options
 
 \newcommand*{\@tufte@justification@autodetect}{%
   \ifthenelse{\boolean{@tufte@justified}}%
     {\justifying}%
     {\RaggedRight}%
 }
-
-%%
-% Forces the outer edge of the caption to be set ragged.  
-% Therefore, on verso pages it's ragged left, and on recto pages it's ragged right.
 
 \newcommand*{\@tufte@justification@caption@outer}{%
   \ifthenelse{\boolean{@tufte@float@recto}}%
@@ -1088,13 +815,6 @@
     {\RaggedLeft}%
 }
 
-
-
-%%
-% A collection of macros to be used with the new Tufte-style float environments.
-% \setfloatalignment forces the caption placement to be treated as top, bottom, etc.
-% \forcerectofloat forces the float to be treated as if it were appearing on a recto page.
-% \forceversofloat does the same, but for verso pages.
 
 \newcommand{\@tufte@float@debug@info}{}% contains debug info generated as the float is processed
 \newcommand{\@tufte@float@debug}[1]{% adds debug info to the queue for output
